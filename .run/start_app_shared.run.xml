@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+    <configuration default="false" name="start:app:shared" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+        <option name="ACTIVE_PROFILES" value="local,shared" />
+        <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+        <module name="swiyu-registry-trust-data-service" />
+        <option name="SPRING_BOOT_MAIN_CLASS" value="ch.admin.bj.swiyu.registry.trust.data.Application" />
+        <method v="2">
+            <option name="Make" enabled="true" />
+        </method>
+    </configuration>
+</component>

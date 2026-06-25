@@ -1,0 +1,52 @@
+# SPDX-FileCopyrightText: 2025 Swiss Confederation
+#
+# SPDX-License-Identifier: MIT
+
+server:
+  port: 8080
+
+jeap:
+  health:
+    metric:
+      contributor-metrics:
+        enabled: true
+  monitor:
+    prometheus:
+      password: "{noop}${MONITORING_BASIC_AUTH_PASSWORD}"
+      user: "${MONITORING_BASIC_AUTH_USERNAME}"
+  swagger:
+    status: OPEN
+  rest:
+    tracing:
+      uri-filter-pattern: .*/actuator/.*
+      full-response-details-in-message: false
+
+spring:
+  application:
+    name: swiyu-registry-trust-data-service
+  flyway:
+    enabled: false
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      schema: ${spring.jpa.properties.hibernate.default_schema}
+  jpa:
+    properties:
+      hibernate:
+        default_schema: data
+        hbm2ddl.auto: validate
+    open-in-view: false
+springdoc:
+  swagger-ui:
+    oauth:
+      client-id: ${spring.application.name}
+
+logging:
+  level:
+    ch.admin.bit.jeap: INFO
+    ch.admin.bit.jeap.log.RestRequestTracer: DEBUG
+    ch.admin.bj.swiyu: INFO
+
+features:
+  EIDARTFE_754_VC_SCHEMA: ${FEATURES_EIDARTFE_754_VC_SCHEMA:false}
+  EIDARTFE_1129_NON_COMPLIANT_ACTORS: ${FEATURES_EIDARTFE_1129_NON_COMPLIANT_ACTORS:false}
