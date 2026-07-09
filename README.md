@@ -8,10 +8,11 @@ SPDX-License-Identifier: MIT
 
 # Registry trust data
 
-The datastore services are the backbone of the swiss SSI inspired ecosystem.
+The datastore services are the backbone of the Swiss SSI inspired ecosystem.
 This repository does contain the current readonly, public facing implementation for the trust registry.
 
-With the trust registry entities can prove and maintain their status as verified issuers or verifiers, ensuring trust within the ecosystem. Users will be able to see the verification status of issuers and verifiers in their wallets.
+With the trust registry entities can prove and maintain their status as verified issuers or verifiers, ensuring trust within the ecosystem. 
+Users will be able to see the verification status of issuers and verifiers in their wallets.
 
 ## Table of Contents
 
@@ -26,14 +27,9 @@ With the trust registry entities can prove and maintain their status as verified
 For a general overview of the public beta environment and its components, please check
 the [Public Beta context](https://swiyu-admin-ch.github.io/open-source-components/#public-beta).
 
-A datastore service always includes 2 sub services:
+This service provides all the protocol conform read operations.
 
-1. The authoring service, which essentially provides all the write operations.  
-   Those should only be available to specified authorized systems like the controller system provided by the swiss gov.
-2. The data service, which provides all the protocol conform read operations.
-   Therefore we do require a strict separation of write operations in the code, so while the data models are shared
-   through
-   the shared libraries services and repositories are not shared.
+The write operations are done in the [swiyu-trust-management-scs](https://github.com/swiyu-admin-ch/swiyu-trust-management-scs).
 
 ## Installation
 
@@ -54,12 +50,15 @@ Note: if you want to run the application alongside with the other services of SW
 ./mvnw spring-boot:run -Dspring-boot.run.profiles=local,shared
 ```
 
+This will assume that the swiyu-trust-management-scs was already started the same way (which provides the DB at port 5380 via
+its docker-compose config).
+
 ## Usage
 
 ### Auth
 
 The data service is always unprotected as all data on the registers should be readable by everyone.  
-The authoring services do need protection, which is as of now handled by the infrastructure.  
+The swiyu-trust-management-scs do need protection, which is as of now handled by the infrastructure.  
 We do recommend to add mTLS authentication to your infrastructure endpoints.
 
 ## Contributions and feedback
