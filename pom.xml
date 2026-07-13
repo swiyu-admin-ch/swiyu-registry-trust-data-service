@@ -19,7 +19,7 @@
 
     <groupId>ch.admin.bj.swiyu</groupId>
     <artifactId>swiyu-registry-trust-data-service</artifactId>
-    <version>1.6.2-SNAPSHOT</version>
+    <version>1.6.3-SNAPSHOT</version>
     <name>swiyu-registry-trust-data-service</name>
     <description>FOITT Trust Data Service</description>
 
@@ -48,6 +48,7 @@
         <sd-jwt.version>1.7</sd-jwt.version>
         <nimbus-jose-jwt.version>10.8</nimbus-jose-jwt.version>
         <bouncycastle.version>1.84</bouncycastle.version>
+        <logback.version>1.5.36</logback.version>
         <maven.compiler.release>25</maven.compiler.release>
     </properties>
     <dependencies>

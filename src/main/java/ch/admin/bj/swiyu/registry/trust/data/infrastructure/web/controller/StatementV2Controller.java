@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Pattern;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import org.springdoc.core.converters.models.PageableAsQueryParam;
@@ -20,9 +21,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PagedModel;
 import org.springframework.data.web.SortDefault;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@Validated
 @RequestMapping("/api/v2/")
 @AllArgsConstructor
 @Tag(name = "Statements 2.0", description = "Returns statements of the Trust Protocol 2.0 from the datastore.")
@@ -46,7 +49,11 @@ public class StatementV2Controller {
         }
     )
     public String getIdTS(
-        @PathVariable(name = "identifier") String identifier // swagger is handling the path encoding
+        @PathVariable(name = "identifier") @Pattern(
+            // Regex based on https://www.w3.org/TR/did-1.0/#did-syntax
+            regexp = "^[A-Za-z0-9:._%-]+$",
+            message = "identifier contains unsupported characters"
+        ) String identifier // swagger is handling the path encoding
     ) {
         return this.statementService.getIdentityV2TrustStatementForIdentifier(identifier);
     }

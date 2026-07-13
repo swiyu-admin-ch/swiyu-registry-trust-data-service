@@ -15,6 +15,8 @@ import ch.admin.bj.swiyu.registry.trust.data.test.PostgreSQLContainerInitializer
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
@@ -79,6 +81,19 @@ class StatementV2ControllerIT {
 
         assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(result.getBody()).isEqualTo(idTs.getSerialized());
+    }
+
+    @Test
+    void getIdentityTrustStatementByIdentifier_rejectsUnsafeCharacters() {
+        var encodedIdentifier = URLEncoder.encode("<script>alert(1)</script>", StandardCharsets.UTF_8);
+        var uri = URI.create("/api/v2/identity-trust-statement/" + encodedIdentifier);
+
+        var exception = org.assertj.core.api.Assertions.catchThrowableOfType(
+            org.springframework.web.client.HttpClientErrorException.BadRequest.class,
+            () -> restClient.get().uri(uri).retrieve().toEntity(String.class)
+        );
+
+        assertThat(exception).isNotNull();
     }
 
     @Test
