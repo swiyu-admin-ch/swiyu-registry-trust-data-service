@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.6.4
+
+### Changed
+
+- Update maven from 3.9.12 to 3.9.16
+- Update postgres from 17.8 to 17.10
+- Update org.apache.maven.plugins:maven-surefire-plugin from 3.5.5 to 3.5.6
+- Update com.nimbusds:nimbus-jose-jwt from 10.8 to 10.9.1
+- Update com.authlete:sd-jwt from 1.7 to 1.9
+- Update org.springdoc:springdoc-openapi-starter-common from 2.8.14 to 2.8.17
+- Update org.springdoc:springdoc-openapi-starter-webmvc-ui from 2.8.14 to 2.8.17
+- Update com.tngtech.archunit:archunit-junit5 from 1.4.1 to 1.4.2
+- Update com.diffplug.spotless:spotless-maven-plugin from 3.2.1 to 3.8.0
+- Update org.jacoco:jacoco-maven-plugin from 0.8.14 to 0.8.15
+
 ## 1.6.3
 
 ### Changed
