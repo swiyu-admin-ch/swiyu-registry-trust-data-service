@@ -5,7 +5,8 @@
   ~ SPDX-License-Identifier: MIT
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -13,12 +14,12 @@
         <artifactId>jeap-spring-boot-parent</artifactId>
         <!-- Attention when updating: always check if some overrides in CVE-OVERRIDES section can be removed  -->
         <version>33.11.0</version>
-        <relativePath /> <!-- lookup parent from repository -->
+        <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>ch.admin.bj.swiyu</groupId>
     <artifactId>swiyu-registry-trust-data-service</artifactId>
-    <version>1.6.4-SNAPSHOT</version>
+    <version>1.6.5-SNAPSHOT</version>
     <name>swiyu-registry-trust-data-service</name>
     <description>FOITT Trust Data Service</description>
 
@@ -186,6 +187,27 @@
     <dependencyManagement>
         <dependencies>
             <!-- START CVE Overrides -->
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>2.21.5</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotation</artifactId>
+                <version>2.21.5</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>2.21.5</version>
+            </dependency>
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>42.7.12</version>
+            </dependency>
             <!-- END CVE Overrides -->
         </dependencies>
     </dependencyManagement>
@@ -292,7 +314,7 @@
                         <importOrder>
                             <order>java,javax,com,de,lombok,net,org</order>
                         </importOrder>
-                        <removeUnusedImports />
+                        <removeUnusedImports/>
                         <prettier>
                             <devDependencies>
                                 <prettier>${prettier.version}</prettier>
