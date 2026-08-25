@@ -16,7 +16,6 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.*;
 import ch.admin.bj.swiyu.registry.trust.data.domain.*;
 import ch.admin.bj.swiyu.registry.trust.data.domain.datastore.*;
 import ch.admin.bj.swiyu.registry.trust.data.test.*;
-import com.fasterxml.jackson.databind.*;
 import java.net.*;
 import java.nio.charset.*;
 import org.junit.jupiter.api.*;
@@ -27,6 +26,7 @@ import org.springframework.http.*;
 import org.springframework.test.context.*;
 import org.springframework.web.client.*;
 import org.testcontainers.junit.jupiter.*;
+import tools.jackson.databind.JsonNode;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
@@ -78,13 +78,13 @@ class TrustStatementV1ControllerIT {
         assertThat(json).isNotNull();
         assertThat(json.isArray()).isTrue();
         assertThat(json).hasSize(1);
-        assertThat(json.get(0).asText()).isEqualTo(identityVc.getRawVc());
+        assertThat(json.get(0).asString()).isEqualTo(identityVc.getRawVc());
     }
 
     @Test
     void getTrustStatementsForIssuanceVcSchema() {
         // GIVEN (a request to /issuance with url as parameter)
-        var vcSchemaIdentifier = issuanceVc.getVcPayload().get("canIssue").asText();
+        var vcSchemaIdentifier = issuanceVc.getVcPayload().get("canIssue").asString();
         var uri = URI.create(
             "/api/v1/truststatements/issuance?vcSchemaId=" +
             URLEncoder.encode(vcSchemaIdentifier, StandardCharsets.UTF_8)
@@ -98,13 +98,13 @@ class TrustStatementV1ControllerIT {
         assertThat(json).isNotNull();
         assertThat(json.isArray()).isTrue();
         assertThat(json).hasSize(1);
-        assertThat(json.get(0).asText()).isEqualTo(issuanceVc.getRawVc());
+        assertThat(json.get(0).asString()).isEqualTo(issuanceVc.getRawVc());
     }
 
     @Test
     void getTrustStatementsForVerificationVcSchema() {
         // GIVEN (a request to /verification with url as parameter)
-        var vcSchemaIdentifier = verificationVc.getVcPayload().get("canVerify").asText();
+        var vcSchemaIdentifier = verificationVc.getVcPayload().get("canVerify").asString();
         var uri = URI.create(
             "/api/v1/truststatements/verification?vcSchemaId=" +
             URLEncoder.encode(vcSchemaIdentifier, StandardCharsets.UTF_8)
@@ -118,6 +118,6 @@ class TrustStatementV1ControllerIT {
         assertThat(json).isNotNull();
         assertThat(json.isArray()).isTrue();
         assertThat(json).hasSize(1);
-        assertThat(json.get(0).asText()).isEqualTo(verificationVc.getRawVc());
+        assertThat(json.get(0).asString()).isEqualTo(verificationVc.getRawVc());
     }
 }

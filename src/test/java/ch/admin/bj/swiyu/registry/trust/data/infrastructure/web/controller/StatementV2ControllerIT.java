@@ -12,8 +12,6 @@ import ch.admin.bj.swiyu.registry.trust.data.domain.Statement;
 import ch.admin.bj.swiyu.registry.trust.data.domain.StatementRepository;
 import ch.admin.bj.swiyu.registry.trust.data.domain.StatementType;
 import ch.admin.bj.swiyu.registry.trust.data.test.PostgreSQLContainerInitializer;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -29,6 +27,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.client.RestClient;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
@@ -74,7 +74,7 @@ class StatementV2ControllerIT {
     void getIdentityTrustStatementByIdentifier() {
         var idTs = publishedStatementRepository.save(createTestData(StatementType.IDENTITY_TRUST_STATEMENT_V2));
 
-        var sub = idTs.getData().get("sub").asText();
+        var sub = idTs.getData().get("sub").asString();
         var uri = URI.create("/api/v2/identity-trust-statement/" + sub);
 
         var result = restClient.get().uri(uri).retrieve().toEntity(String.class);
@@ -109,7 +109,7 @@ class StatementV2ControllerIT {
         var json = result.getBody();
         assertThat(json).isNotNull();
         assertThat(json.get("content")).hasSize(2);
-        assertThat(json.get("content").get(0).asText()).isEqualTo(statement.getSerialized());
+        assertThat(json.get("content").get(0).asString()).isEqualTo(statement.getSerialized());
     }
 
     @Test
@@ -117,7 +117,7 @@ class StatementV2ControllerIT {
         var statement = publishedStatementRepository.save(
             createTestData(StatementType.VERIFICATION_QUERY_PUBLIC_STATEMENT_V2)
         );
-        var jti = UUID.fromString(statement.getData().get("jti").asText());
+        var jti = UUID.fromString(statement.getData().get("jti").asString());
         var uri = URI.create("/api/v2/verification-query-public-statement/" + jti);
 
         var result = restClient.get().uri(uri).retrieve().toEntity(String.class);
@@ -141,7 +141,7 @@ class StatementV2ControllerIT {
         var json = result.getBody();
         assertThat(json).isNotNull();
         assertThat(json.get("content")).hasSize(2);
-        assertThat(json.get("content").get(0).asText()).isEqualTo(statement.getSerialized());
+        assertThat(json.get("content").get(0).asString()).isEqualTo(statement.getSerialized());
     }
 
     @Test
@@ -149,7 +149,7 @@ class StatementV2ControllerIT {
         var statement = publishedStatementRepository.save(
             createTestData(StatementType.PROTECTED_ISSUANCE_AUTHORIZATION_TRUST_STATEMENT_V2)
         );
-        var jti = UUID.fromString(statement.getData().get("jti").asText());
+        var jti = UUID.fromString(statement.getData().get("jti").asString());
         var uri = URI.create("/api/v2/protected-issuance-authorization-trust-statement/" + jti);
 
         var result = restClient.get().uri(uri).retrieve().toEntity(String.class);
@@ -175,7 +175,7 @@ class StatementV2ControllerIT {
         var json = result.getBody();
         assertThat(json).isNotNull();
         assertThat(json.get("content")).hasSize(2);
-        assertThat(json.get("content").get(0).asText()).isEqualTo(statement.getSerialized());
+        assertThat(json.get("content").get(0).asString()).isEqualTo(statement.getSerialized());
     }
 
     @Test
@@ -183,7 +183,7 @@ class StatementV2ControllerIT {
         var statement = publishedStatementRepository.save(
             createTestData(StatementType.PROTECTED_ISSUANCE_TRUST_LIST_STATEMENT_V2)
         );
-        var jti = UUID.fromString(statement.getData().get("jti").asText());
+        var jti = UUID.fromString(statement.getData().get("jti").asString());
         var uri = URI.create("/api/v2/protected-issuance-trust-list-statement/" + jti);
 
         var result = restClient.get().uri(uri).retrieve().toEntity(String.class);
@@ -207,7 +207,7 @@ class StatementV2ControllerIT {
         var json = result.getBody();
         assertThat(json).isNotNull();
         assertThat(json.get("content")).hasSize(2);
-        assertThat(json.get("content").get(0).asText()).isEqualTo(statement.getSerialized());
+        assertThat(json.get("content").get(0).asString()).isEqualTo(statement.getSerialized());
     }
 
     @Test
@@ -215,7 +215,7 @@ class StatementV2ControllerIT {
         var statement = publishedStatementRepository.save(
             createTestData(StatementType.PROTECTED_VERIFICATION_AUTHORIZATION_TRUST_STATEMENT_V2)
         );
-        var jti = UUID.fromString(statement.getData().get("jti").asText());
+        var jti = UUID.fromString(statement.getData().get("jti").asString());
         var uri = URI.create("/api/v2/protected-verification-authorization-trust-statement/" + jti);
 
         var result = restClient.get().uri(uri).retrieve().toEntity(String.class);
@@ -241,7 +241,7 @@ class StatementV2ControllerIT {
         var json = result.getBody();
         assertThat(json).isNotNull();
         assertThat(json.get("content")).hasSize(2);
-        assertThat(json.get("content").get(0).asText()).isEqualTo(statement.getSerialized());
+        assertThat(json.get("content").get(0).asString()).isEqualTo(statement.getSerialized());
     }
 
     @Test

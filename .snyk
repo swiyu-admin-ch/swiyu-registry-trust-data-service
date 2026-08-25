@@ -9,14 +9,4 @@ ignore:
           ignore expires
         expires: 2026-08-01T00:00:00.000Z
         created: 2026-07-01T12:25:16.970Z
-  SNYK-JAVA-ORGAPACHETOMCATEMBED-17732890:
-    - '*':
-        reason: Will be fixed in EID-6392 with Spring Boot 4 upgrade
-        expires: 2027-01-01T00:00:00.000Z
-        created: 2026-07-01T13:13:11.761Z
-  SNYK-JAVA-ORGAPACHETOMCATEMBED-17733746:
-    - '*':
-        reason: Will be fixed in EID-6392 with Spring Boot 4 upgrade
-        expires: 2027-01-01T00:00:00.000Z
-        created: 2026-07-01T13:13:11.761Z
 patch: {}

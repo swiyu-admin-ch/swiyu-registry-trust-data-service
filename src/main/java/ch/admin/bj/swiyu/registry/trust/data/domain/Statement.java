@@ -6,7 +6,6 @@
 
 package ch.admin.bj.swiyu.registry.trust.data.domain;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.persistence.*;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -16,6 +15,7 @@ import lombok.Setter;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import tools.jackson.databind.JsonNode;
 
 /**
  * A Statement represents a statement in our data store.

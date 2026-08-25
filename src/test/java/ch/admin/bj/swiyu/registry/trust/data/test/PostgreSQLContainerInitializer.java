@@ -10,17 +10,17 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.context.support.TestPropertySourceUtils;
-import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.postgresql.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
 @Slf4j
 public class PostgreSQLContainerInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
-    private static PostgreSQLContainer<?> database;
+    private static PostgreSQLContainer database;
 
-    private static PostgreSQLContainer<?> getDatabase() {
+    private static PostgreSQLContainer getDatabase() {
         if (database == null) {
-            database = new PostgreSQLContainer<>(
+            database = new PostgreSQLContainer(
                 DockerImageName.parse("docker-hub.nexus.bit.admin.ch/postgres:17.8").asCompatibleSubstituteFor(
                     "postgres:17.8"
                 )

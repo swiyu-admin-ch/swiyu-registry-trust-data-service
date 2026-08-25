@@ -10,7 +10,6 @@ import static java.util.Map.*;
 import ch.admin.bj.swiyu.registry.trust.data.domain.*;
 import ch.admin.bj.swiyu.registry.trust.data.domain.datastore.*;
 import com.authlete.sd.*;
-import com.fasterxml.jackson.databind.*;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.*;
 import com.nimbusds.jose.jwk.*;
@@ -22,6 +21,8 @@ import java.time.*;
 import java.time.temporal.*;
 import java.util.*;
 import lombok.experimental.*;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 
 @UtilityClass
 public class VcEntityTestData {
@@ -146,11 +147,10 @@ public class VcEntityTestData {
     }
 
     private static ObjectMapper getObjectMapper() {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper
-            .getFactory()
-            .configure(com.fasterxml.jackson.core.json.JsonWriteFeature.ESCAPE_NON_ASCII.mappedFeature(), true);
-        return mapper;
+        return tools.jackson.databind.json.JsonMapper.builder()
+            .findAndAddModules()
+            .configure(tools.jackson.core.json.JsonWriteFeature.ESCAPE_NON_ASCII, true)
+            .build();
     }
 
     private static JsonNode toJsonNode(Payload payload) {

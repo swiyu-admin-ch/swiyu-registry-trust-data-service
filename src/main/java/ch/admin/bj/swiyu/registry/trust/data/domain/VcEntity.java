@@ -6,13 +6,13 @@
 
 package ch.admin.bj.swiyu.registry.trust.data.domain;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.persistence.*;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import tools.jackson.databind.JsonNode;
 
 /**
  * A VcEntity represents a VC of different formats and types in our data store.

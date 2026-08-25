@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.6.8
+
+### Changed
+
+- Migrate from deprecated asText()
+
+## 1.6.7
+
+### Changed
+
+- Upgrade jeap-spring-boot-parent -> 40.1.0
+- Removed CVE overrides
+
+## 1.6.6
+
+### Changed
+
+- Migrate to Spring Boot 4 (jeap-spring-boot-parent 36.1.1)
+- Bump logback override to 1.5.38 (definitive fix for CVE-2026-13006)
+- Override tomcat.version to 11.0.23 to resolve CVE-2026-55955 and CVE-2026-53434 (parent's default 11.0.22 was still
+  affected); remove now-obsolete Snyk ignores
+
 ## 1.6.5
 
 ### Changed

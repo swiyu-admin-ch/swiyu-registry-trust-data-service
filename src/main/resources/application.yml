@@ -35,7 +35,15 @@ spring:
       hibernate:
         default_schema: data
         hbm2ddl.auto: validate
+        type:
+          json_format_mapper: jackson3
     open-in-view: false
+  jackson:
+    datatype:
+      enum:
+        # Jackson 3 changed WRITE_ENUMS_USING_TO_STRING default to true, which breaks e.g. HttpStatus
+        # (whose toString() is "410 GONE" instead of the enum name "GONE") - restore the pre-Jackson-3 behavior
+        write-enums-using-to-string: false
 springdoc:
   swagger-ui:
     oauth:
