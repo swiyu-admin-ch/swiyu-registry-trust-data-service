@@ -7,6 +7,7 @@
 package ch.admin.bj.swiyu.registry.trust.data.infrastructure.web.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import ch.admin.bj.swiyu.registry.trust.data.domain.Statement;
 import ch.admin.bj.swiyu.registry.trust.data.domain.StatementRepository;
@@ -19,12 +20,15 @@ import java.time.Instant;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import tools.jackson.databind.JsonNode;
@@ -89,7 +93,7 @@ class StatementV2ControllerIT {
         var uri = URI.create("/api/v2/identity-trust-statement/" + encodedIdentifier);
 
         var exception = org.assertj.core.api.Assertions.catchThrowableOfType(
-            org.springframework.web.client.HttpClientErrorException.BadRequest.class,
+            HttpClientErrorException.BadRequest.class,
             () -> restClient.get().uri(uri).retrieve().toEntity(String.class)
         );
 
@@ -242,6 +246,24 @@ class StatementV2ControllerIT {
         assertThat(json).isNotNull();
         assertThat(json.get("content")).hasSize(2);
         assertThat(json.get("content").get(0).asString()).isEqualTo(statement.getSerialized());
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = {
+            "/api/v2/identity-trust-statement/",
+            "/api/v2/verification-query-public-statement/",
+            "/api/v2/protected-verification-authorization-trust-statement/",
+            "/api/v2/protected-issuance-trust-list-statement/",
+            "/api/v2/protected-issuance-authorization-trust-statement/",
+        }
+    )
+    void getListEndpoint_whenPageNumberCausesOffsetOverflow_returnsBadRequest() {
+        var uri = URI.create("/api/v2/identity-trust-statement/" + "?page=" + Integer.MAX_VALUE + "&size=50"); // anything other than 1
+
+        assertThatExceptionOfType(HttpClientErrorException.BadRequest.class).isThrownBy(() ->
+            restClient.get().uri(uri).retrieve().toBodilessEntity()
+        );
     }
 
     @Test

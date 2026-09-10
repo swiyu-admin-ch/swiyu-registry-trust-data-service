@@ -7,6 +7,7 @@
 package ch.admin.bj.swiyu.registry.trust.data.infrastructure.web.controller;
 
 import ch.admin.bj.swiyu.registry.trust.data.api.ApiErrorDto;
+import ch.admin.bj.swiyu.registry.trust.data.common.exception.InvalidPageException;
 import ch.admin.bj.swiyu.registry.trust.data.common.exception.InvalidSortException;
 import ch.admin.bj.swiyu.registry.trust.data.common.exception.ResourceDeactivatedException;
 import ch.admin.bj.swiyu.registry.trust.data.common.exception.ResourceNotFoundException;
@@ -42,6 +43,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(InvalidSortException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ApiErrorDto handleInvalidSortException(final InvalidSortException exception) {
+        return new ApiErrorDto(HttpStatus.BAD_REQUEST, exception.getMessage());
+    }
+
+    @ExceptionHandler(InvalidPageException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected ApiErrorDto handleInvalidPageException(final InvalidPageException exception) {
         return new ApiErrorDto(HttpStatus.BAD_REQUEST, exception.getMessage());
     }
 

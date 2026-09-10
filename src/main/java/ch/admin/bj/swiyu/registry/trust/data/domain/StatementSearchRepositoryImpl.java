@@ -6,6 +6,7 @@
 
 package ch.admin.bj.swiyu.registry.trust.data.domain;
 
+import ch.admin.bj.swiyu.registry.trust.data.common.exception.InvalidPageException;
 import ch.admin.bj.swiyu.registry.trust.data.common.exception.InvalidSortException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -20,10 +21,44 @@ public class StatementSearchRepositoryImpl implements StatementSearchRepository 
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Override
+    public Optional<Statement> findByFilter(TrustStatementV2Filter filter) {
+        return this.findAllByFilter(filter, null).stream().findFirst();
+    }
+
+    public Page<Statement> findAllByFilter(TrustStatementV2Filter filter, Pageable pageable) {
+        if (pageable == null) {
+            pageable = PageRequest.of(0, 1, Sort.by("iat").descending());
+        }
+
+        var sql = new StringBuilder("SELECT * FROM {h-schema}statement WHERE 1=1");
+        var countSql = new StringBuilder("SELECT COUNT(id) FROM {h-schema}statement WHERE 1=1");
+
+        addWhere(filter, sql, countSql);
+        addOrderBy(pageable, sql);
+
+        var countQuery = entityManager.createNativeQuery(countSql.toString());
+        var query = entityManager.createNativeQuery(sql.toString(), Statement.class);
+
+        setPage(pageable, query);
+        addParameters(filter, query, countQuery);
+
+        // Fetch results
+        @SuppressWarnings("unchecked")
+        List<Statement> resultList = query.getResultList();
+        var total = ((Number) countQuery.getSingleResult()).longValue();
+        // Return a Page
+        return new PageImpl<>(resultList, pageable, total);
+    }
+
     private static void setPage(Pageable pageable, Query query) {
         var pageSize = Math.min(pageable.getPageSize(), 50);
         query.setMaxResults(pageSize);
-        query.setFirstResult(pageable.getPageNumber() * pageSize);
+        try {
+            query.setFirstResult(Math.multiplyExact(pageable.getPageNumber(), pageSize));
+        } catch (ArithmeticException e) {
+            throw new InvalidPageException(e);
+        }
     }
 
     private static void addParameters(TrustStatementV2Filter filter, Query query, Query countQuery) {
@@ -95,36 +130,6 @@ public class StatementSearchRepositoryImpl implements StatementSearchRepository 
                 List.of("typ", "alg", "kid", "profile_version", "iat", "exp", "nbf")
             );
         };
-    }
-
-    @Override
-    public Optional<Statement> findByFilter(TrustStatementV2Filter filter) {
-        return this.findAllByFilter(filter, null).stream().findFirst();
-    }
-
-    public Page<Statement> findAllByFilter(TrustStatementV2Filter filter, Pageable pageable) {
-        if (pageable == null) {
-            pageable = PageRequest.of(0, 1, Sort.by("iat").descending());
-        }
-
-        var sql = new StringBuilder("SELECT * FROM {h-schema}statement WHERE 1=1");
-        var countSql = new StringBuilder("SELECT COUNT(id) FROM {h-schema}statement WHERE 1=1");
-
-        addWhere(filter, sql, countSql);
-        addOrderBy(pageable, sql);
-
-        var countQuery = entityManager.createNativeQuery(countSql.toString());
-        var query = entityManager.createNativeQuery(sql.toString(), Statement.class);
-
-        setPage(pageable, query);
-        addParameters(filter, query, countQuery);
-
-        // Fetch results
-        @SuppressWarnings("unchecked")
-        List<Statement> resultList = query.getResultList();
-        var total = ((Number) countQuery.getSingleResult()).longValue();
-        // Return a Page
-        return new PageImpl<>(resultList, pageable, total);
     }
 
     private void addOrderBy(Pageable pageable, StringBuilder sql) {
