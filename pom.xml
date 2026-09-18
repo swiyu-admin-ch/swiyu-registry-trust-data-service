@@ -13,13 +13,13 @@
         <groupId>ch.admin.bit.jeap</groupId>
         <artifactId>jeap-spring-boot-parent</artifactId>
         <!-- Attention when updating: always check if some overrides in CVE-OVERRIDES section can be removed  -->
-        <version>40.11.0</version>
+        <version>41.3.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>ch.admin.bj.swiyu</groupId>
     <artifactId>swiyu-registry-trust-data-service</artifactId>
-    <version>1.6.9-SNAPSHOT</version>
+    <version>1.6.10-SNAPSHOT</version>
     <name>swiyu-registry-trust-data-service</name>
     <description>FOITT Trust Data Service</description>
 
@@ -39,12 +39,12 @@
         </sonar.coverage.exclusions>
         <jacoco-maven-plugin.version>0.8.15</jacoco-maven-plugin.version>
         <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
-        <spotless-maven-plugin.version>3.8.0</spotless-maven-plugin.version>
+        <spotless-maven-plugin.version>3.10.2</spotless-maven-plugin.version>
         <cleanthat.version>2.22</cleanthat.version>
         <prettier.version>3.5.3</prettier.version>
         <prettier-plugin-java.version>2.6.7</prettier-plugin-java.version>
-        <archunit-junit5.version>1.4.2</archunit-junit5.version>
-        <springdoc.version>3.0.3</springdoc.version>
+        <archunit-junit5.version>1.5.0</archunit-junit5.version>
+        <springdoc.version>3.1.1</springdoc.version>
         <sd-jwt.version>1.9</sd-jwt.version>
         <nimbus-jose-jwt.version>10.9.1</nimbus-jose-jwt.version>
         <maven.compiler.release>25</maven.compiler.release>
