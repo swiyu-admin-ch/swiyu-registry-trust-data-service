@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.7.1
+
+### Changed
+
+- Updated jeap-spring-boot-parent -> 41.14.0 to fix Jackson CVEs (jackson-databind/jackson-core 2.22.3 and 3.2.3)
+
+## 1.7.0
+
+### Added
+
+- Add alert test invoker
+
 ## 1.6.11
 
 ### Added
@@ -17,7 +29,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Updated jeap-spring-boot-parent -> 40.11.0
 - Handle page integer overflow on list endpoints
-- Update dependencies: jeap-spring-boot-parent 41.3.0, postgres 17.11, spotless-maven-plugin 3.10.2, archunit-junit5 1.5.0, springdoc 3.1.1
+- Update dependencies: jeap-spring-boot-parent 41.3.0, postgres 17.11, spotless-maven-plugin 3.10.2, archunit-junit5
+  1.5.0, springdoc 3.1.1
 
 ## 1.6.9
 
