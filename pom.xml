@@ -19,7 +19,7 @@
 
     <groupId>ch.admin.bj.swiyu</groupId>
     <artifactId>swiyu-registry-trust-data-service</artifactId>
-    <version>1.7.1-SNAPSHOT</version>
+    <version>1.7.2-SNAPSHOT</version>
     <name>swiyu-registry-trust-data-service</name>
     <description>FOITT Trust Data Service</description>
 
@@ -48,6 +48,12 @@
         <sd-jwt.version>1.9</sd-jwt.version>
         <nimbus-jose-jwt.version>10.9.1</nimbus-jose-jwt.version>
         <maven.compiler.release>25</maven.compiler.release>
+        <!-- CVE-OVERRIDE start -->
+        <!-- Override Tomcat to >= 11.0.26 to fix SNYK-JAVA-ORGAPACHETOMCATEMBED-20552494
+             (Authentication Bypass by Alternate Name). Spring Boot manages 11.0.25.
+             Remove when the parent manages Spring Boot with Tomcat >= 11.0.26. -->
+        <tomcat.version>11.0.26</tomcat.version>
+        <!-- CVE-OVERRIDE end -->
     </properties>
     <dependencies>
         <!-- Spring Boot Core Dependencies -->
