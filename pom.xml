@@ -19,7 +19,7 @@
 
     <groupId>ch.admin.bj.swiyu</groupId>
     <artifactId>swiyu-registry-trust-data-service</artifactId>
-    <version>1.7.2-SNAPSHOT</version>
+    <version>1.7.3-SNAPSHOT</version>
     <name>swiyu-registry-trust-data-service</name>
     <description>FOITT Trust Data Service</description>
 
@@ -53,6 +53,10 @@
              (Authentication Bypass by Alternate Name). Spring Boot manages 11.0.25.
              Remove when the parent manages Spring Boot with Tomcat >= 11.0.26. -->
         <tomcat.version>11.0.26</tomcat.version>
+        <!-- Override PostgreSQL to >= 42.7.14 to fix SNYK-JAVA-ORGPOSTGRESQL-20571163
+             (Not Failing Securely / 'Failing Open'). Spring Boot 4.1.1 manages 42.7.13.
+             Remove when the parent manages PostgreSQL >= 42.7.14. -->
+        <postgresql.version>42.7.14</postgresql.version>
         <!-- CVE-OVERRIDE end -->
     </properties>
     <dependencies>
