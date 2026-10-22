@@ -25,7 +25,7 @@ public class VcEntityService {
     @Transactional(readOnly = true)
     public List<String> getIdentityTrustStatementsForDid(String did, Boolean filterActive) {
         var restrictedVct = List.of("TrustStatementIdentityV1");
-        var filter = toFilter(filterActive, TrustStatementV1Filter.builder().did(did).vct(restrictedVct));
+        var filter = toFilter(filterActive, 1, TrustStatementV1Filter.builder().did(did).vct(restrictedVct));
         return vcEntityRepository.search(filter.build()).stream().map(VcEntity::getRawVc).toList();
     }
 
@@ -45,9 +45,19 @@ public class VcEntityService {
         Boolean activeOnly,
         TrustStatementV1Filter.TrustStatementV1FilterBuilder filter
     ) {
+        return toFilter(activeOnly, null, filter);
+    }
+
+    private static TrustStatementV1Filter.TrustStatementV1FilterBuilder toFilter(
+        Boolean activeOnly,
+        Integer maxCount,
+        TrustStatementV1Filter.TrustStatementV1FilterBuilder filter
+    ) {
         if (Boolean.TRUE.equals(activeOnly)) {
             filter.maxNotBefore(Instant.now()).minExpiration(Instant.now()).status(DatastoreStatus.ACTIVE);
+            filter.maxCount(maxCount);
         }
+
         return filter;
     }
 }

@@ -5,18 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.8.0
+
+### Changed
+
+- For wallet compatibility the old trust protocol V1 identity now returns a maximum of 1 valid trust statements.
+
 ## 1.7.3
 
 ### Fixed
 
-- Override PostgreSQL JDBC driver to 42.7.14 to fix Snyk high severity finding SNYK-JAVA-ORGPOSTGRESQL-20571163 (not failing securely / 'failing open')
-- Ignore Snyk high severity finding SNYK-JAVA-ORGGLASSFISHJAXB-20883142 (XXE injection); no fixed jaxb-runtime release exists yet
+- Override PostgreSQL JDBC driver to 42.7.14 to fix Snyk high severity finding SNYK-JAVA-ORGPOSTGRESQL-20571163 (not
+  failing securely / 'failing open')
+- Ignore Snyk high severity finding SNYK-JAVA-ORGGLASSFISHJAXB-20883142 (XXE injection); no fixed jaxb-runtime release
+  exists yet
 
 ## 1.7.2
 
 ### Fixed
 
-- Override Tomcat to 11.0.26 to fix Snyk critical severity finding SNYK-JAVA-ORGAPACHETOMCATEMBED-20552494 (authentication bypass by alternate name)
+- Override Tomcat to 11.0.26 to fix Snyk critical severity finding SNYK-JAVA-ORGAPACHETOMCATEMBED-20552494 (
+  authentication bypass by alternate name)
 
 ## 1.7.1
 

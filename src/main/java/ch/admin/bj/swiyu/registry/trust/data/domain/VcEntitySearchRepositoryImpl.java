@@ -48,6 +48,9 @@ public class VcEntitySearchRepositoryImpl implements VcEntitySearchRepository {
         if (hasText(filter.getDid())) {
             query.setParameter("did", filter.getDid());
         }
+        if (filter.getMaxCount() != null) {
+            query.setMaxResults(filter.getMaxCount());
+        }
         if (filter.getMaxNotBefore() != null) {
             query.setParameter("maxNotBefore", filter.getMaxNotBefore().getEpochSecond());
         }

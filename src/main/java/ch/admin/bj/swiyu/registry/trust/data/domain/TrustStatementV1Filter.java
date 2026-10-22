@@ -16,6 +16,7 @@ public class TrustStatementV1Filter {
 
     private String did;
     private Instant maxNotBefore;
+    private Integer maxCount;
     private Instant minExpiration;
     private DatastoreStatus status;
     private List<String> vct;
