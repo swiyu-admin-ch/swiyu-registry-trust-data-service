@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.8.4
+
+### Changed
+
+- Trust statement reads return only the serialized statement (scalar projection) instead of hydrating the full entity including the unused jsonb payload, and single-statement lookups no longer run a COUNT query
+- V1 trust statement searches return the encoded statements directly in a deterministic order (`ORDER BY ts.id ASC`)
+- Read-only single-statement lookups join an existing transaction instead of starting one (`Propagation.SUPPORTS`)
+
+## 1.8.3
+
+### Removed
+
+- Remove alert test invoker (DevOps controller)
+
+## 1.8.2
+
+### Fixed
+
+- Override the embedded Tomcat to 11.0.27 to fix six Snyk findings on Tomcat 11.0.25 (four critical and two high, including CVE-2026-101356 and CVE-2026-101296); 11.0.26 was no longer sufficient
+
 ## 1.8.1
 
 ### Changed

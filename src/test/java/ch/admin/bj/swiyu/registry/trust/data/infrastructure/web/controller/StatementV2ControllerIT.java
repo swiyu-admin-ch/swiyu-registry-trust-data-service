@@ -52,10 +52,14 @@ class StatementV2ControllerIT {
     private ObjectMapper mapper;
 
     private Statement createTestData(StatementType type) {
-        return createTestData(type, 0);
+        return createTestData(type, 0, "did:test:" + UUID.randomUUID());
     }
 
     private Statement createTestData(StatementType type, int timeModifier) {
+        return createTestData(type, timeModifier, "did:test:" + UUID.randomUUID());
+    }
+
+    private Statement createTestData(StatementType type, int timeModifier, String sub) {
         var id = UUID.randomUUID();
         var node = mapper.createObjectNode();
         node.put("typ", type.getJwtTyp());
@@ -63,7 +67,7 @@ class StatementV2ControllerIT {
         node.put("exp", Instant.now().plusSeconds(50 + timeModifier).getEpochSecond());
         node.put("nbf", Instant.now().minusSeconds(0).getEpochSecond());
         node.put("jti", id.toString());
-        node.put("sub", "did:test:" + id);
+        node.put("sub", sub);
 
         return new Statement(id, false, true, type.toString() + id, node, type);
     }
@@ -85,6 +89,24 @@ class StatementV2ControllerIT {
 
         assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(result.getBody()).isEqualTo(idTs.getSerialized());
+    }
+
+    @Test
+    void getIdentityTrustStatementByIdentifier_returnsNewestStatementForSub() {
+        // Same sub, different iat: the older statement is saved first, so insertion
+        // order differs from result order. Pins the iat DESC single-row lookup.
+        var sub = "did:test:newest-iat";
+        publishedStatementRepository.save(createTestData(StatementType.IDENTITY_TRUST_STATEMENT_V2, 1, sub));
+        var newer = publishedStatementRepository.save(
+            createTestData(StatementType.IDENTITY_TRUST_STATEMENT_V2, 0, sub)
+        );
+
+        var uri = URI.create("/api/v2/identity-trust-statement/" + sub);
+
+        var result = restClient.get().uri(uri).retrieve().toEntity(String.class);
+
+        assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(result.getBody()).isEqualTo(newer.getSerialized());
     }
 
     @Test

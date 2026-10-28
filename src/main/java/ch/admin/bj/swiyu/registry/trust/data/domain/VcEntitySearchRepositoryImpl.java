@@ -13,10 +13,10 @@ public class VcEntitySearchRepositoryImpl implements VcEntitySearchRepository {
     private EntityManager entityManager;
 
     @Override
-    public List<VcEntity> search(TrustStatementV1Filter filter) {
+    public List<String> search(TrustStatementV1Filter filter) {
         var sql = new StringBuilder(
             """
-                SELECT ts.* FROM {h-schema}vc_entity ts
+                SELECT ts.raw_vc FROM {h-schema}vc_entity ts
                 JOIN {h-schema}datastore_entity de ON de.id = ts.base_id
                 WHERE 1=1
             """
@@ -44,7 +44,11 @@ public class VcEntitySearchRepositoryImpl implements VcEntitySearchRepository {
             sql.append(" AND de.status = :status");
         }
 
-        var query = entityManager.createNativeQuery(sql.toString(), VcEntity.class);
+        // Without ORDER BY, PostgreSQL provides no ordering guarantee; a different
+        // execution plan can change the list order. The unique id makes it predictable.
+        sql.append(" ORDER BY ts.id ASC");
+
+        var query = entityManager.createNativeQuery(sql.toString(), String.class);
         if (hasText(filter.getDid())) {
             query.setParameter("did", filter.getDid());
         }

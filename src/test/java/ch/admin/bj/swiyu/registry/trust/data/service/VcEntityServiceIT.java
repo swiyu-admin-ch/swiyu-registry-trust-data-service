@@ -73,6 +73,20 @@ class VcEntityServiceIT {
     }
 
     @Test
+    void getTrustStatementsForIssuanceVcSchema_returnsInsertionOrder() throws Exception {
+        // Two matching statements saved in a known order; pins the ORDER BY ts.id ASC
+        // of the V1 search (without it, PostgreSQL provides no ordering guarantee).
+        var datastore = dataStoreEntityRepository.save(datastoreEntity(ACTIVE)).getId();
+        var first = vcEntityRepository.save(vcIssuanceV1(datastore, "did1", "https://schema/order-test"));
+        var second = vcEntityRepository.save(vcIssuanceV1(datastore, "did1", "https://schema/order-test"));
+        commit();
+        var result = vcEntityService.getTrustStatementsForIssuanceVcSchema("https://schema/order-test", true);
+        assertEquals(2, result.size());
+        assertThat(result.get(0)).isEqualTo(first.getRawVc());
+        assertThat(result.get(1)).isEqualTo(second.getRawVc());
+    }
+
+    @Test
     void getTrustStatementsForVerificationVcSchema() throws Exception {
         // GIVEN (a couple of different trust statements)
         var datastore1 = dataStoreEntityRepository.save(datastoreEntity(ACTIVE)).getId();

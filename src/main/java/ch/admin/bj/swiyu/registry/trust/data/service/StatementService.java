@@ -7,7 +7,6 @@
 package ch.admin.bj.swiyu.registry.trust.data.service;
 
 import ch.admin.bj.swiyu.registry.trust.data.common.exception.ResourceNotFoundException;
-import ch.admin.bj.swiyu.registry.trust.data.domain.Statement;
 import ch.admin.bj.swiyu.registry.trust.data.domain.StatementRepository;
 import ch.admin.bj.swiyu.registry.trust.data.domain.StatementType;
 import ch.admin.bj.swiyu.registry.trust.data.domain.TrustStatementV2Filter;
@@ -16,6 +15,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -24,7 +24,7 @@ public class StatementService {
 
     private final StatementRepository statementRepository;
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public String getIdentityV2TrustStatementForIdentifier(String sub) {
         var filter = TrustStatementV2Filter.builderWithDefaults(true)
             .sub(sub)
@@ -32,8 +32,7 @@ public class StatementService {
 
         return statementRepository
             .findByFilter(filter.build())
-            .orElseThrow(() -> new ResourceNotFoundException(sub, "idTS"))
-            .getSerialized();
+            .orElseThrow(() -> new ResourceNotFoundException(sub, "idTS"));
     }
 
     @Transactional(readOnly = true)
@@ -42,10 +41,10 @@ public class StatementService {
             .sub(sub)
             .typ(StatementType.IDENTITY_TRUST_STATEMENT_V2.getJwtTyp());
 
-        return statementRepository.findAllByFilter(filter.build(), pageable).map(Statement::getSerialized);
+        return statementRepository.findAllByFilter(filter.build(), pageable);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public String getVerificationQueryV2PublicStatementForJti(UUID jti) {
         var filter = TrustStatementV2Filter.builderWithDefaults(true)
             .jti(jti)
@@ -53,8 +52,7 @@ public class StatementService {
 
         return statementRepository
             .findByFilter(filter.build())
-            .orElseThrow(() -> new ResourceNotFoundException(jti.toString(), "vqPS"))
-            .getSerialized();
+            .orElseThrow(() -> new ResourceNotFoundException(jti.toString(), "vqPS"));
     }
 
     @Transactional(readOnly = true)
@@ -63,10 +61,10 @@ public class StatementService {
             .sub(sub)
             .typ(StatementType.VERIFICATION_QUERY_PUBLIC_STATEMENT_V2.getJwtTyp());
 
-        return statementRepository.findAllByFilter(filter.build(), pageable).map(Statement::getSerialized);
+        return statementRepository.findAllByFilter(filter.build(), pageable);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public String getProtectedVerificationAuthorizationTrustStatementForJti(UUID jti) {
         var filter = TrustStatementV2Filter.builderWithDefaults(true)
             .jti(jti)
@@ -74,8 +72,7 @@ public class StatementService {
 
         return statementRepository
             .findByFilter(filter.build())
-            .orElseThrow(() -> new ResourceNotFoundException(jti.toString(), "pvaTS"))
-            .getSerialized();
+            .orElseThrow(() -> new ResourceNotFoundException(jti.toString(), "pvaTS"));
     }
 
     @Transactional(readOnly = true)
@@ -88,10 +85,10 @@ public class StatementService {
             .sub(sub)
             .typ(StatementType.PROTECTED_VERIFICATION_AUTHORIZATION_TRUST_STATEMENT_V2.getJwtTyp());
 
-        return statementRepository.findAllByFilter(filter.build(), pageable).map(Statement::getSerialized);
+        return statementRepository.findAllByFilter(filter.build(), pageable);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public String getProtectedIssuanceAuthorizationTrustStatementForJti(UUID jti) {
         var filter = TrustStatementV2Filter.builderWithDefaults(true)
             .jti(jti)
@@ -99,8 +96,7 @@ public class StatementService {
 
         return statementRepository
             .findByFilter(filter.build())
-            .orElseThrow(() -> new ResourceNotFoundException(jti.toString(), "piaTS"))
-            .getSerialized();
+            .orElseThrow(() -> new ResourceNotFoundException(jti.toString(), "piaTS"));
     }
 
     @Transactional(readOnly = true)
@@ -113,18 +109,17 @@ public class StatementService {
             .sub(sub)
             .typ(StatementType.PROTECTED_ISSUANCE_AUTHORIZATION_TRUST_STATEMENT_V2.getJwtTyp());
 
-        return statementRepository.findAllByFilter(filter.build(), pageable).map(Statement::getSerialized);
+        return statementRepository.findAllByFilter(filter.build(), pageable);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public String getProtectedIssuanceTrustListStatementForJti(UUID jti) {
         var filter = TrustStatementV2Filter.builderWithDefaults(true)
             .jti(jti)
             .typ(StatementType.PROTECTED_ISSUANCE_TRUST_LIST_STATEMENT_V2.getJwtTyp());
         return statementRepository
             .findByFilter(filter.build())
-            .orElseThrow(() -> new ResourceNotFoundException(jti.toString(), "piTLS"))
-            .getSerialized();
+            .orElseThrow(() -> new ResourceNotFoundException(jti.toString(), "piTLS"));
     }
 
     @Transactional(readOnly = true)
@@ -133,10 +128,10 @@ public class StatementService {
             .sub(sub)
             .typ(StatementType.PROTECTED_ISSUANCE_TRUST_LIST_STATEMENT_V2.getJwtTyp());
 
-        return statementRepository.findAllByFilter(filter.build(), pageable).map(Statement::getSerialized);
+        return statementRepository.findAllByFilter(filter.build(), pageable);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public String getActiveProtectedIssuanceTrustListStatement() {
         var filter = TrustStatementV2Filter.builderWithDefaults(true).typ(
             StatementType.PROTECTED_ISSUANCE_TRUST_LIST_STATEMENT_V2.getJwtTyp()
@@ -144,11 +139,10 @@ public class StatementService {
 
         return statementRepository
             .findByFilter(filter.build())
-            .orElseThrow(() -> new ResourceNotFoundException("piTLS"))
-            .getSerialized();
+            .orElseThrow(() -> new ResourceNotFoundException("piTLS"));
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public String getActiveNonComplianceTrustListStatement() {
         var filter = TrustStatementV2Filter.builderWithDefaults(true).typ(
             StatementType.NON_COMPLIANCE_TRUST_LIST_STATEMENT_V2.getJwtTyp()
@@ -156,7 +150,6 @@ public class StatementService {
 
         return statementRepository
             .findByFilter(filter.build())
-            .orElseThrow(() -> new ResourceNotFoundException("ncTLS"))
-            .getSerialized();
+            .orElseThrow(() -> new ResourceNotFoundException("ncTLS"));
     }
 }

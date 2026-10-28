@@ -11,7 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface StatementSearchRepository {
-    Optional<Statement> findByFilter(TrustStatementV2Filter filter);
+    Optional<String> findByFilter(TrustStatementV2Filter filter);
 
-    Page<Statement> findAllByFilter(TrustStatementV2Filter filter, Pageable pageable);
+    Page<String> findAllByFilter(TrustStatementV2Filter filter, Pageable pageable);
 }

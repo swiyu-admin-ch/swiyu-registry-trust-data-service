@@ -9,5 +9,5 @@ package ch.admin.bj.swiyu.registry.trust.data.domain;
 import java.util.List;
 
 public interface VcEntitySearchRepository {
-    List<VcEntity> search(TrustStatementV1Filter filter);
+    List<String> search(TrustStatementV1Filter filter);
 }
