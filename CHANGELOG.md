@@ -5,6 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.8.13
+
+### Changed
+
+- Override Spring Boot to 4.1.3, Spring Framework to 7.0.11 and Spring Security to 7.1.3 to fix seven Snyk
+  findings (three critical, four high) in spring-boot-actuator, spring-boot-security, spring-beans,
+  spring-core, spring-web, spring-security-core and spring-security-web; the latest jEAP parent 41.41.0
+  still manages Spring Boot 4.1.2 and pins the Spring versions literally
+- Re-scan the dependency tree and the container image with Snyk: no open high or critical findings
+
+## 1.8.12
+
+### Changed
+
+- Update maven from 3.9.16 to 3.10.2
+- Update postgres from 17.11 to 17.12
+- Update com.nimbusds:nimbus-jose-jwt from 10.9.1 to 10.10
+- Update com.authlete:sd-jwt from 1.9 to 1.11
+- Update org.springdoc:springdoc-openapi-starter-common from 3.1.1 to 3.2.1
+- Update org.springdoc:springdoc-openapi-starter-webmvc-ui from 3.1.1 to 3.2.1
+- Update com.tngtech.archunit:archunit-junit5 from 1.5.0 to 1.5.1
+- Update com.diffplug.spotless:spotless-maven-plugin from 3.10.2 to 3.12.0
+- Update ch.admin.bit.jeap:jeap-spring-boot-parent from 41.37.0 to 41.41.0
+
+
 ## 1.8.11
 
 ### Changed
